@@ -12,7 +12,7 @@ const credentials = {
   client_secret: process.env.CLIENT_SECRET,
   calendar_id: process.env.CALENDAR_ID,
   auth_uri: "https://accounts.google.com/o/oauth2/auth",
-  token_uri: "https://oauth2.googleapis.com/token",
+  token_uri: "https://oauth2.googleapis.com/token/",
   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
   redirect_uris: ["https://hylee-vx.github.io/meetapp/"],
   javascript_origins: ["https://hylee-vx.github.io", "http://localhost:3000"],
@@ -57,8 +57,7 @@ module.exports.getAccessToken = async (event) => {
   const code = decodeURIComponent(`${event.pathParameters.code}`);
 
   return new Promise((resolve, reject) => {
-    // exchange authorisation code for access token with a callback after the exchange
-    // callback here an arrow function with the results as parameters (err, token)
+    // exchange authorisation code for access token
     oAuth2Client.getToken(code, (err, token) => {
       if (err) {
         return reject(err);
@@ -80,6 +79,9 @@ module.exports.getAccessToken = async (event) => {
       console.error(err);
       return {
         statusCode: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify(err),
       };
     });
