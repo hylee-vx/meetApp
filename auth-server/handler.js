@@ -45,3 +45,39 @@ module.exports.getAuthURL = async () => {
     }),
   };
 };
+
+module.exports.getAccessToken = async (event) => {
+  const oAuth2Client = new google.auth.OAuth2(
+    client_id,
+    client_secret,
+    redirect_uris[0]
+  );
+
+  // decode authorisation code extracted from URL query
+  const code = decodeURIComponent(`${event.pathParameters.code}`);
+
+  return new Promise((resolve, reject) => {
+    // exchange authorisation code for access token with a callback after the exchange
+    // callback here an arrow function with the results as parameters (err, token)
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(token);
+    });
+  })
+    .then(token => {
+      // respond with OAuth token
+      return {
+        statusCode: 200,
+        body: JSON.stringify(token),
+      };
+    })
+    .catch(err => {
+      console.error(err);
+      return {
+        statusCode: 500,
+        body: JSON.stringify(err),
+      };
+    });
+};
