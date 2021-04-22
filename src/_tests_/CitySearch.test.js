@@ -5,10 +5,12 @@ import { mockData } from '../mockdata';
 import { extractLocations } from '../api';
 
 describe('<CitySearch /> component', () => {
-    let CitySearchWrapper;
+    let locations, CitySearchWrapper;
     beforeAll(() => {
-        CitySearchWrapper = shallow(<CitySearch />);
-    })
+        locations = extractLocations(mockData);
+        CitySearchWrapper = shallow(<CitySearch locations={locations} />);
+    });
+
     test('render text input', () => {
         expect(CitySearchWrapper.find('.city')).toHaveLength(1);
     });
@@ -24,12 +26,12 @@ describe('<CitySearch /> component', () => {
 
     test('change state when text input changes', () => {
         CitySearchWrapper.setState({
-            query: 'London'
+            query: 'Munich'
         });
-        const eventObject = { target: { value: 'Manchester' } };
+        const eventObject = { target: { value: 'Berlin' } };
         CitySearchWrapper.find('.city').simulate('change', eventObject);
 
-        expect(CitySearchWrapper.state('query')).toBe('Manchester');
+        expect(CitySearchWrapper.state('query')).toBe('Berlin');
     });
 
     test('render list of suggestions correctly', () => {
@@ -42,5 +44,19 @@ describe('<CitySearch /> component', () => {
         for (let i = 0; i < suggestions.length; i += 1) {
             expect(CitySearchWrapper.find('.suggestions li').at(i).text()).toBe(suggestions[i]);
         }
+    });
+
+    test('suggestion list matches the query when query changed', () => {
+        CitySearchWrapper.setState({ query: '', suggestions: [] });
+        CitySearchWrapper.find('.city').simulate('change', {
+            target: { value: 'Berlin' },
+        });
+
+        const query = CitySearchWrapper.state('query');
+        const filteredLocations = locations.filter(location => {
+            return location.toUpperCase().indexOf(query.toUpperCase()) > -1;
+        });
+
+        expect(CitySearchWrapper.state('suggestions')).toEqual(filteredLocations);
     });
 });
