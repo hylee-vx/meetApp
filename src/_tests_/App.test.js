@@ -11,12 +11,10 @@ describe('<App /> component', () => {
     })
 
     test('render list of events', () => {
-        AppWrapper = shallow(<App />);
         expect(AppWrapper.find(EventList)).toHaveLength(1);
     });
 
     test('render CitySearch', () => {
-        AppWrapper = shallow(<App />);
         expect(AppWrapper.find(CitySearch)).toHaveLength(1);
     });
 });
