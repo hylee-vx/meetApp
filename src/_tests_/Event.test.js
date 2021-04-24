@@ -31,20 +31,6 @@ describe('<Event /> component', () => {
     test('render show details button', () => {
         expect(EventWrapper.find('button')).toHaveLength(1);
     });
-    // });
-
-    // describe('<Event /> component state', () => {
-    //     const event = mockData[0];
-    //     let EventWrapper;
-    //     beforeAll(() => {
-    //         EventWrapper = shallow(<Event event={event} />);
-    //     });
-
-    //     beforeEach(() => {
-    //         EventWrapper.setState({
-    //             showDetails: false
-    //         });
-    //     });
 
     test('change showDetails state when button clicked', () => {
         EventWrapper.find('button').simulate('click');
@@ -81,5 +67,4 @@ describe('<Event /> component', () => {
         expect(EventWrapper.find('.show-details-btn')).toHaveLength(1);
         expect(EventWrapper.find('.hide-details-btn')).toHaveLength(0);
     })
-
 });
