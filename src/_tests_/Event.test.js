@@ -10,6 +10,12 @@ describe('<Event /> component', () => {
         EventWrapper = shallow(<Event event={event} />);
     });
 
+    beforeEach(() => {
+        EventWrapper.setState({
+            showDetails: false
+        });
+    });
+
     test('render event element', () => {
         expect(EventWrapper.find('.event')).toHaveLength(1);
     });
@@ -25,32 +31,34 @@ describe('<Event /> component', () => {
     test('render show details button', () => {
         expect(EventWrapper.find('button')).toHaveLength(1);
     });
+    // });
+
+    // describe('<Event /> component state', () => {
+    //     const event = mockData[0];
+    //     let EventWrapper;
+    //     beforeAll(() => {
+    //         EventWrapper = shallow(<Event event={event} />);
+    //     });
+
+    //     beforeEach(() => {
+    //         EventWrapper.setState({
+    //             showDetails: false
+    //         });
+    //     });
 
     test('change showDetails state when button clicked', () => {
-        EventWrapper.setState({
-            showDetails: false
-        });
         EventWrapper.find('button').simulate('click');
-
         expect(EventWrapper.state('showDetails')).toBe(true);
     });
 
     test('render event details when button clicked', () => {
-        EventWrapper.setState({
-            showDetails: false
-        });
         EventWrapper.find('button').simulate('click');
-
         expect(EventWrapper.state('showDetails')).toBe(true);
         expect(EventWrapper.find('.event-details')).toHaveLength(1);
         expect(EventWrapper.find('.event-details').children()).toHaveLength(2);
     });
 
     test('toggle display of event details with each button click', () => {
-        EventWrapper.setState({
-            showDetails: false
-        });
-
         EventWrapper.find('button').simulate('click');
         expect(EventWrapper.state('showDetails')).toBe(true);
         expect(EventWrapper.find('.event-details')).toHaveLength(1);
@@ -63,10 +71,6 @@ describe('<Event /> component', () => {
     });
 
     test('toggle show/hide details wording on button', () => {
-        EventWrapper.setState({
-            showDetails: false
-        });
-
         EventWrapper.find('button').simulate('click');
         expect(EventWrapper.state('showDetails')).toBe(true);
         expect(EventWrapper.find('.show-details-btn')).toHaveLength(0);
