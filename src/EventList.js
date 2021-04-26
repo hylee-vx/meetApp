@@ -2,12 +2,11 @@ import React from 'react';
 import Event from './Event';
 
 const EventList = props => {
-    const { events, numberOfEvents } = props;
-    const slicedEvents = events.slice(0, numberOfEvents);
+    const { events } = props;
 
     return (
         <ul className="EventList">
-            {slicedEvents.map(event =>
+            {events.map(event =>
                 <li key={event.id}>
                     <Event event={event} />
                 </li>
