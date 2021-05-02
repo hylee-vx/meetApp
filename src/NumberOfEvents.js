@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ErrorAlert } from './Alert';
 
 class NumberOfEvents extends Component {
     state = {
@@ -7,9 +8,24 @@ class NumberOfEvents extends Component {
 
     handleInputChange = event => {
         const value = event.target.value;
-        this.setState({
-            numberEvents: value
-        });
+        const valueInteger = parseInt(value);
+
+        if (valueInteger <= 0) {
+            this.setState({
+                numberEvents: value,
+                errorText: 'Please enter a value of 1 or more'
+            });
+        } else if (isNaN(valueInteger)) {
+            this.setState({
+                numberEvents: value,
+                errorText: 'Please enter a valid number'
+            });
+        } else {
+            this.setState({
+                numberEvents: value,
+                errorText: ''
+            });
+        }
         this.props.updateEventCount(value);
     }
 
@@ -22,6 +38,7 @@ class NumberOfEvents extends Component {
                     value={this.state.numberEvents}
                     onChange={this.handleInputChange}
                 />
+                <ErrorAlert text={this.state.errorText} />
             </div>
         );
     }

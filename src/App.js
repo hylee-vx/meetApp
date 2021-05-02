@@ -58,6 +58,7 @@ class App extends Component {
     const { events, locations, numberOfEvents } = this.state;
     return (
       <div className="App">
+        <h1>JS MeetApp</h1>
         <CitySearch locations={locations} updateEvents={this.updateEvents} />
         <NumberOfEvents updateEventCount={this.updateEventCount} />
         <EventList events={events} numberOfEvents={numberOfEvents} />
