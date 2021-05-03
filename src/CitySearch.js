@@ -24,7 +24,6 @@ class CitySearch extends Component {
             return this.setState({
                 query: value,
                 suggestions,
-                showSuggestions: false,
                 infoText: ''
             });
         }
@@ -33,9 +32,9 @@ class CitySearch extends Component {
     handleItemClick = suggestion => {
         this.setState({
             query: suggestion,
-            showSuggestions: false
+            showSuggestions: false,
+            infoText: ''
         });
-
         this.props.updateEvents(suggestion);
     }
 
