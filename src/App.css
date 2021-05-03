@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:500);
 .App {
-  text-align: center;
+  /* text-align: center; */
   padding: 2% 5%;
 }
 
@@ -24,6 +24,40 @@ p {
   display: block;
 }
 
+.app-inputs {
+  display: flex;
+  margin-top: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.app-labels {
+  display: flex;
+}
+
+.input-label {
+  font-size: 15px;
+  padding: 8px 0;
+  margin: 0;
+}
+
+.city-input {
+  flex: 1 0 40%;
+  margin-right: 10%;
+}
+
+.input-components {
+  display: flex;
+}
+
+.CitySearch {
+  margin: auto;
+  position: relative;
+}
+
+.city {
+  width: 100%;
+}
+
 input[type="text"],
 input[type="number"] {
   padding: 8px 6px 8px 10px;
@@ -34,19 +68,6 @@ input[type="number"] {
   line-height: 20px;
   align-self: center;
   height: 38px;
-}
-
-.city {
-  width: 250px;
-}
-
-.CitySearch {
-  display: flex;
-  flex-direction: column;
-  flex-basis: 300px;
-  max-width: 300px;
-  margin: auto;
-  position: relative;
 }
 
 .suggestions {
@@ -114,12 +135,6 @@ input[type="number"] {
   overflow-x: hidden;
 }
 
-.NumberOfEvents {
-  width: 200px;
-  margin: 20px auto;
-  text-align: center;
-}
-
 .button-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -130,7 +145,7 @@ input[type="number"] {
 
 .Alert {
   position: fixed;
-  top: 20px;
+  top: 80px;
 }
 
 .data-vis-wrapper {
@@ -198,6 +213,16 @@ input[type="number"] {
   font-family: "Roboto";
 }
 
+@media (max-width: 576px) {
+  .app-inputs {
+    display: block;
+  }
+
+  .ErrorAlert {
+      position: fixed;
+      top: 175px;
+    }
+  }
 
 
 @media only screen and (min-width: 992px) {
