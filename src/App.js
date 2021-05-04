@@ -58,7 +58,6 @@ class App extends Component {
     const { events, locations, numberOfEvents } = this.state;
     return (
       <div className="App">
-
         <h1 className="app-name">JS MeetApp</h1>
         <div className="app-inputs">
           <div className="city-input">
