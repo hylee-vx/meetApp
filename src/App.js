@@ -17,10 +17,12 @@ class App extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    const { numberOfEvents } = this.state;
+
     getEvents().then(events => {
       if (this.mounted) {
         this.setState({
-          events,
+          events: events.slice(0, numberOfEvents),
           locations: extractLocations(events)
         });
       }
