@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {
+  ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from 'recharts';
+
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
@@ -33,6 +37,16 @@ class App extends Component {
     this.mounted = false;
   }
 
+  getData = () => {
+    const { locations, events } = this.state;
+    const data = locations.map(location => {
+      const number = events.filter(event => event.location === location).length;
+      const city = location.split(' ').shift();
+      return { city, number };
+    });
+    return data;
+  }
+
   updateEvents = location => {
     getEvents().then(events => {
       const locationEvents = (location === 'all')
@@ -61,16 +75,31 @@ class App extends Component {
     return (
       <div className="App">
         <h1 className="app-name">JS MeetApp</h1>
+
         <div className="app-inputs">
           <div className="city-input">
             <p className="input-label city-label">Search cities: </p>
             <CitySearch locations={locations} updateEvents={this.updateEvents} className="input-component" />
           </div>
+
           <div className="number-input">
             <p className="input-label number-label">Show number of events:</p>
             <NumberOfEvents updateEventCount={this.updateEventCount} className="input-component" />
           </div>
         </div>
+
+        <h4>Events in each city</h4>
+        <ResponsiveContainer height={400} >
+          <ScatterChart
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <CartesianGrid />
+            <XAxis type="category" dataKey="city" name="city" />
+            <YAxis type="number" dataKey="number" name="number of events" allowDecidmals={false} />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Scatter data={this.getData()} fill="#82ca9d" />
+          </ScatterChart>
+        </ResponsiveContainer>
+
         <EventList events={events} numberOfEvents={numberOfEvents} />
       </div>
     );
