@@ -17,10 +17,12 @@ class App extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    const { numberOfEvents } = this.state;
+
     getEvents().then(events => {
       if (this.mounted) {
         this.setState({
-          events,
+          events: events.slice(0, numberOfEvents),
           locations: extractLocations(events)
         });
       }
@@ -58,7 +60,6 @@ class App extends Component {
     const { events, locations, numberOfEvents } = this.state;
     return (
       <div className="App">
-
         <h1 className="app-name">JS MeetApp</h1>
         <div className="app-inputs">
           <div className="city-input">
