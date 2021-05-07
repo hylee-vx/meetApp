@@ -76,7 +76,7 @@ class App extends Component {
 
           <div className="number-input">
             <p className="input-label number-label">Show number of events:</p>
-            <NumberOfEvents updateEventCount={this.updateEventCount} numberOfEvents={numberOfEvents} className="input-component" />
+            <NumberOfEvents updateEventCount={this.updateEventCount} className="input-component" />
           </div>
         </div>
 

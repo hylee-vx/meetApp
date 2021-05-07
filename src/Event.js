@@ -24,7 +24,7 @@ class Event extends Component {
             <div className="event">
                 <div className="event-summary">
                     <h2 className="event-name">{event.summary}</h2>
-                    <p>{event.location}</p>
+                    <p className="event-location">{event.location}</p>
                     <div className="event-time-date">
                         <p>{eventDate}</p>
                         <p>{eventTimeFormatted}</p>
