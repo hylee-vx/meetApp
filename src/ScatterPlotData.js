@@ -32,7 +32,7 @@ const ScatterPlotData = ({ locations, events }) => {
                     allowDecimals={false}
                 />
                 <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                <Scatter data={data} fill="#82ca9d" />
+                <Scatter data={data} fill="#133b7c" />
             </ScatterChart>
         </ResponsiveContainer >
     );

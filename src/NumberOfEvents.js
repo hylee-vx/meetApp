@@ -1,47 +1,38 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { ErrorAlert } from './Alert';
 
-class NumberOfEvents extends Component {
-    state = {
-        numberEvents: 32
-    };
+const NumberOfEvents = props => {
+    const [eventCount, setEventCount] = useState(props);
+    const [errorText, setErrorText] = useState('');
 
-    handleInputChange = event => {
+    const handleInputChange = event => {
         const value = event.target.value;
         const valueInteger = parseInt(value);
 
         if (valueInteger <= 0) {
-            this.setState({
-                numberEvents: value,
-                errorText: 'Please enter a value of 1 or more'
-            });
+            setEventCount({ value });
+            setErrorText('Please enter a value of 1 or more');
         } else if (isNaN(valueInteger)) {
-            this.setState({
-                numberEvents: value,
-                errorText: 'Please enter a valid number'
-            });
+            setEventCount({ value });
+            setErrorText('Please enter a valid number');
         } else {
-            this.setState({
-                numberEvents: value,
-                errorText: ''
-            });
+            setEventCount({ value });
+            setErrorText('');
         }
-        this.props.updateEventCount(value);
+        props.updateEventCount(value);
     }
 
-    render() {
-        return (
-            <div className="NumberOfEvents">
-                <input
-                    type="number"
-                    className="numberInput"
-                    value={this.state.numberEvents}
-                    onChange={this.handleInputChange}
-                />
-                <ErrorAlert text={this.state.errorText} className="ErrorAlert" />
-            </div>
-        );
-    }
+    return (
+        <div className="NumberOfEvents">
+            <input
+                type="number"
+                className="numberInput"
+                value={eventCount}
+                onChange={handleInputChange}
+            />
+            <ErrorAlert text={errorText} className="ErrorAlert" />
+        </div>
+    );
 }
 
 export default NumberOfEvents;
