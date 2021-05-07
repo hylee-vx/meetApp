@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-const EventGenre = ({ events }) => {
+const PieChartData = ({ events }) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
+        const getData = () => {
+            const genres = ['React', 'JavaScript', 'Node', 'jQuery', 'AngularJS'];
+            const data = genres.map(genre => {
+                const value = events.filter(({ summary }) => summary.split(' ').includes(genre)).length;
+                return { name: genre, value };
+            });
+            return data.filter(data => data.value > 0);
+        };
+
         setData(() => getData());
     }, [events]);
-
-    const getData = () => {
-        const genres = ['React', 'JavaScript', 'Node', 'jQuery', 'AngularJS'];
-        const data = genres.map(genre => {
-            const value = events.filter(({ summary }) => summary.split(' ').includes(genre)).length;
-            return { name: genre, value };
-        });
-        return data;
-    };
 
     const colours = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
     return (
-        <ResponsiveContainer height={400} >
-            <PieChart width={400} height={400} >
+        <ResponsiveContainer height={200} >
+            <PieChart height={200} >
                 <Pie
+                    className="pie-chart"
                     data={data}
-                    cx={200}
-                    cy={200}
+                    // cx={200}
+                    // cy={200}
                     labelLine={false}
                     outerRadius={80}
                     fill="#8884d8"
@@ -45,4 +46,4 @@ const EventGenre = ({ events }) => {
     );
 };
 
-export default EventGenre;
+export default PieChartData;

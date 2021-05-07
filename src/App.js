@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import {
-  ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
-} from 'recharts';
 
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 import { getEvents, extractLocations } from './api';
-import EventGenre from './EventGenre';
+import PieChartData from './PieChartData';
+import ScatterPlotData from './ScatterPlotData';
 
 import './App.css';
 import './nprogress.css';
@@ -17,6 +15,7 @@ class App extends Component {
     events: [],
     locations: [],
     numberOfEvents: 32,
+    eventsByLocation: null,
     currentLocation: 'all'
   };
 
@@ -28,7 +27,8 @@ class App extends Component {
       if (this.mounted) {
         this.setState({
           events: events.slice(0, numberOfEvents),
-          locations: extractLocations(events)
+          locations: extractLocations(events),
+          eventsByLocation: events.length
         });
       }
     });
@@ -38,16 +38,6 @@ class App extends Component {
     this.mounted = false;
   }
 
-  getData = () => {
-    const { locations, events } = this.state;
-    const data = locations.map(location => {
-      const number = events.filter(event => event.location === location).length;
-      const city = location.split(' ').shift();
-      return { city, number };
-    });
-    return data;
-  }
-
   updateEvents = location => {
     getEvents().then(events => {
       const locationEvents = (location === 'all')
@@ -55,13 +45,14 @@ class App extends Component {
         : events.filter(event => event.location === location);
       const { numberOfEvents } = this.state;
       const filteredEvents = locationEvents.slice(0, numberOfEvents);
+      const eventsByLocation = locationEvents.length;
       this.setState({
         events: filteredEvents,
+        eventsByLocation: eventsByLocation,
         currentLocation: location
       });
     });
   }
-
 
   updateEventCount = eventCount => {
     const { currentLocation } = this.state;
@@ -72,7 +63,7 @@ class App extends Component {
   }
 
   render() {
-    const { events, locations, numberOfEvents } = this.state;
+    const { events, locations, numberOfEvents, eventsByLocation } = this.state;
     return (
       <div className="App">
         <h1 className="app-name">JS MeetApp</h1>
@@ -90,26 +81,17 @@ class App extends Component {
         </div>
 
         <div className="data-vis-wrapper">
-          <h4>Events by type</h4>
-          <EventGenre events={events} />
-          <h4>Events by location</h4>
-          <ResponsiveContainer height={400} >
-            <ScatterChart
-              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-              <CartesianGrid />
-              <XAxis type="category" dataKey="city" name="city" />
-              <YAxis
-                type="number"
-                dataKey="number"
-                name="number of events"
-                allowDecimals={false}
-              />
-              <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-              <Scatter data={this.getData()} fill="#82ca9d" />
-            </ScatterChart>
-          </ResponsiveContainer>
+          <div className="pie-chart-wrapper">
+            <h4>Events by type</h4>
+            <PieChartData events={events} />
+          </div>
+          <div className="scatter-plot-wrapper">
+            <h4>Events by location</h4>
+            <ScatterPlotData locations={locations} events={events} />
+          </div>
         </div>
 
+        <h4>{`Displaying ${numberOfEvents} of ${eventsByLocation} events`}</h4>
         <EventList events={events} numberOfEvents={numberOfEvents} />
       </div>
     );

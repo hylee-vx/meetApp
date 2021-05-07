@@ -15,28 +15,35 @@ class Event extends Component {
         const { event } = this.props;
         const { showDetails } = this.state;
 
+        const eventISODateTime = new Date(event.start.dateTime);
+        const eventDate = eventISODateTime.toDateString();
+        const eventTime = eventISODateTime.toTimeString();
+        const eventTimeFormatted = `${eventTime.slice(0, 5)} ${eventTime.slice(18)}`;
+
         return (
             <div className="event">
                 <div className="event-summary">
-                    <h2>{event.summary}</h2>
-                    <p>{event.start.dateTime}</p>
-                    <p>{event.start.timeZone}</p>
+                    <h2 className="event-name">{event.summary}</h2>
                     <p>{event.location}</p>
+                    <div className="event-time-date">
+                        <p>{eventDate}</p>
+                        <p>{eventTimeFormatted}</p>
+                    </div>
                 </div>
 
                 {showDetails
                     ? <div>
                         <div className="event-details">
+                            <p className="event-description">{event.description}</p>
                             <a href={event.htmlLink}>See details on Google Calendar</a>
-                            <p>{event.description}</p>
                         </div>
                         <button
-                            className="hide-details-btn"
+                            className="details-btn"
                             onClick={() => this.handleClick()}
                         >Hide details</button>
                     </div>
                     : <button
-                        className="show-details-btn"
+                        className="details-btn"
                         onClick={() => this.handleClick()}
                     >Show details</button>
                 }
