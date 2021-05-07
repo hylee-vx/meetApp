@@ -1,38 +1,47 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { ErrorAlert } from './Alert';
 
-const NumberOfEvents = props => {
-    const [eventCount, setEventCount] = useState(props);
-    const [errorText, setErrorText] = useState('');
+class NumberOfEvents extends Component {
+    state = {
+        numberEvents: 32
+    };
 
-    const handleInputChange = event => {
+    handleInputChange = event => {
         const value = event.target.value;
         const valueInteger = parseInt(value);
 
         if (valueInteger <= 0) {
-            setEventCount({ value });
-            setErrorText('Please enter a value of 1 or more');
+            this.setState({
+                numberEvents: value,
+                errorText: 'Please enter a value of 1 or more'
+            });
         } else if (isNaN(valueInteger)) {
-            setEventCount({ value });
-            setErrorText('Please enter a valid number');
+            this.setState({
+                numberEvents: value,
+                errorText: 'Please enter a valid number'
+            });
         } else {
-            setEventCount({ value });
-            setErrorText('');
+            this.setState({
+                numberEvents: value,
+                errorText: ''
+            });
         }
-        props.updateEventCount(value);
+        this.props.updateEventCount(value);
     }
 
-    return (
-        <div className="NumberOfEvents">
-            <input
-                type="number"
-                className="numberInput"
-                value={eventCount}
-                onChange={handleInputChange}
-            />
-            <ErrorAlert text={errorText} className="ErrorAlert" />
-        </div>
-    );
+    render() {
+        return (
+            <div className="NumberOfEvents">
+                <input
+                    type="number"
+                    className="numberInput"
+                    value={this.state.numberEvents}
+                    onChange={this.handleInputChange}
+                />
+                <ErrorAlert text={this.state.errorText} className="ErrorAlert" />
+            </div>
+        );
+    }
 }
 
 export default NumberOfEvents;
