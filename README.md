@@ -3,7 +3,7 @@
 A serverless, progressive web application (PWA) built with React that connects with the Google Calendar API to fetch upcoming events. The serverless function is hosted by AWS, and the app is built using the Test-Driven Development (TDD) approach.
 
 The application is deployed on GitHub Pages [here](https://hylee-vx.github.io/meetapp/).
-### NB as the app is in testing mode, your email address must be added to an access list first 
+##### NB as the app is in testing mode, your email address must be added to an access list first 
 
 ## Key Features
 * The default view returns a list of 32 events in all cities
